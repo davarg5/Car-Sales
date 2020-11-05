@@ -1,4 +1,4 @@
-import React, { useState, useReducer } from 'react';
+import React, { useReducer } from 'react';
 
 import Header from './components/Header';
 import AddedFeatures from './components/AddedFeatures';
@@ -6,8 +6,11 @@ import AdditionalFeatures from './components/AdditionalFeatures';
 import Total from './components/Total';
 
 import reducer, { initialState } from './reducers';
+import actions from './actions';
 
-const App = () => {
+import { connect } from 'react-redux';
+
+const App = props => {
   // const state = {
   //   additionalPrice: 0,
   //   car: {
@@ -25,20 +28,36 @@ const App = () => {
   //   ]
   // };
 
-  const [state, dispatch] = useReducer(reducer, initialState);
+  
+  
+
+  // const [state, dispatch] = useReducer(reducer, initialState);
+
+  
 
   return (
     <div className="boxes">
       <div className="box">
-        <Header car={state.car} />
-        <AddedFeatures car={state.car} />
+        <Header car={props.car} />
+        <AddedFeatures car={props.car} />
       </div>
       <div className="box">
-        <AdditionalFeatures additionalFeatures={state.additionalFeatures} />
-        <Total car={state.car} additionalPrice={state.additionalPrice} />
+        <AdditionalFeatures additionalFeatures={props.additionalFeatures} />
+        <Total car={props.car} additionalPrice={props.additionalPrice} />
       </div>
     </div>
   );
 };
 
-export default App;
+
+
+const mapStateToProps = (state) => {
+  return {
+    car: state.car,
+    addedFeatures: state.addedFeatures,
+    additionalFeatures: state.additionalFeatures,
+    additionalPrice: state.additionalPrice
+  }
+}
+
+export default connect(mapStateToProps, {  })(App);
